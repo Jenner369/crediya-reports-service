@@ -1,7 +1,5 @@
-##Spring Configuration
 server:
   port: 8081
-
 spring:
   application:
     name: CrediYAReportsService
@@ -9,16 +7,30 @@ spring:
     add-properties: false
 
   flyway:
-    url: jdbc:mysql://localhost:3307/crediya_reports
-    user: crediya_reports_user
-    password: crediya_reports_pass
-    locations: classpath:db/migration
+    url: "jdbc:mysql://localhost:3307/crediya_reports"
+    user: "crediya_reports_user"
+    password: "crediya_reports_pass"
+    locations: "classpath:db/migration"
     baseline-on-migrate: true
 
 adapters:
   r2dbc:
-    host: localhost
+    host: "localhost"
     port: 3307
-    database: crediya_reports
-    username: crediya_reports_user
-    password: crediya_reports_pass
+    database: "crediya_reports"
+    username: "crediya_reports_user"
+    password: "crediya_reports_pass"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
