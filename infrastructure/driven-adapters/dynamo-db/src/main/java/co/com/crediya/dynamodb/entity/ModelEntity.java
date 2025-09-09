@@ -1,4 +1,4 @@
-package co.com.crediya.dynamodb;
+package co.com.crediya.dynamodb.entity;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 

@@ -1,5 +1,6 @@
-package co.com.crediya.dynamodb;
+package co.com.crediya.dynamodb.adapter;
 
+import co.com.crediya.dynamodb.entity.ModelEntity;
 import co.com.crediya.dynamodb.helper.TemplateAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;

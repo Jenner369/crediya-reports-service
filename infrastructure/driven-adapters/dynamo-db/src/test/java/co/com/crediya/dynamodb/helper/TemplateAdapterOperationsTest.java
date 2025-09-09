@@ -1,7 +1,7 @@
 package co.com.crediya.dynamodb.helper;
 
-import co.com.crediya.dynamodb.DynamoDBTemplateAdapter;
-import co.com.crediya.dynamodb.ModelEntity;
+import co.com.crediya.dynamodb.adapter.DynamoDBTemplateAdapter;
+import co.com.crediya.dynamodb.entity.ModelEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
