@@ -2,7 +2,9 @@ package co.com.crediya.sqs.listener.helper;
 
 import co.com.crediya.sqs.listener.SQSProcessor;
 import co.com.crediya.sqs.listener.config.SQSProperties;
+import co.com.crediya.usecase.incrementapprovedloanapplicationamount.IncrementApprovedLoanApplicationAmountUseCase;
 import co.com.crediya.usecase.incrementapprovedloanapplicationcount.IncrementApprovedLoanApplicationCountUseCase;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -33,10 +35,16 @@ class SQSListenerTest {
     @Mock
     private IncrementApprovedLoanApplicationCountUseCase incrementApprovedLoanApplicationCountUseCase;
 
+    @Mock
+    private IncrementApprovedLoanApplicationAmountUseCase incrementApprovedLoanApplicationAmountUseCase;
+
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
+        objectMapper = new ObjectMapper();
         sqsProperties = new SQSProperties(
                 "us-east-1",
                 "http://localhost:4566",
@@ -62,7 +70,11 @@ class SQSListenerTest {
         var sqsListener = SQSListener.builder()
                 .client(asyncClient)
                 .properties(sqsProperties)
-                .processor(new SQSProcessor(incrementApprovedLoanApplicationCountUseCase))
+                .processor(new SQSProcessor(
+                        incrementApprovedLoanApplicationCountUseCase,
+                        incrementApprovedLoanApplicationAmountUseCase,
+                        objectMapper)
+                )
                 .operation("operation")
                 .build();
 
