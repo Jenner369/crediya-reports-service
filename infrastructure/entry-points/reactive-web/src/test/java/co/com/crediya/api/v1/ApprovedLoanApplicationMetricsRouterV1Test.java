@@ -6,6 +6,7 @@ import co.com.crediya.api.dto.approvedloanapplicationmetrics.ApprovedLoanApplica
 import co.com.crediya.api.presentation.approvedloanapplicationmetrics.v1.handler.ApprovedLoanApplicationReportHandlerV1;
 import co.com.crediya.api.presentation.approvedloanapplicationmetrics.v1.ApprovedLoanApplicationMetricsRouterV1;
 import co.com.crediya.model.role.enums.Roles;
+import co.com.crediya.usecase.getapprovedloanapplicationamount.GetApprovedLoanApplicationAmountUseCase;
 import co.com.crediya.usecase.getapprovedloanapplicationcount.GetApprovedLoanApplicationCountUseCase;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +45,9 @@ class ApprovedLoanApplicationMetricsRouterV1Test {
 
     @MockitoBean
     private GetApprovedLoanApplicationCountUseCase getApprovedLoanApplicationCountUseCase;
+
+    @MockitoBean
+    private GetApprovedLoanApplicationAmountUseCase getApprovedLoanApplicationAmountUseCase;
 
     @MockitoBean
     private RoleValidator roleValidator;
@@ -82,6 +87,8 @@ class ApprovedLoanApplicationMetricsRouterV1Test {
     void testGetApprovedLoanApplicationCount() {
         when(getApprovedLoanApplicationCountUseCase.execute(null))
                 .thenReturn(Mono.just(10L));
+        when(getApprovedLoanApplicationAmountUseCase.execute(null))
+                .thenReturn(Mono.just(BigDecimal.TEN));
         when(roleValidator.validateRole(any(Roles.class))).thenReturn(Mono.empty());
 
         webTestClient.mutateWith(mockAuthentication(
@@ -94,8 +101,9 @@ class ApprovedLoanApplicationMetricsRouterV1Test {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody(ApprovedLoanApplicationReportDTO.class)
-                .value(report ->
-                        Assertions.assertThat(report.getApprovedLoanCount()).isEqualTo(10L)
-                );
+                .value(report -> {
+                    Assertions.assertThat(report.getApprovedLoanCount()).isEqualTo(10L);
+                    Assertions.assertThat(report.getApprovedLoanAmount()).isEqualTo(BigDecimal.TEN);
+                });
     }
 }
