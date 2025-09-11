@@ -16,15 +16,8 @@ public class IncrementApprovedLoanApplicationCountUseCase
     @Override
     public Mono<ApprovedLoanRequestMetric> execute(Void input) {
         return repository.findByMetricCode(ApprovedLoanRequestMetrics.APPROVED_LOAN_COUNT.getCode())
-                .switchIfEmpty(Mono.just(createInitialMetric()))
+                .switchIfEmpty(Mono.just(ApprovedLoanRequestMetrics.createCountInitialMetric()))
                 .flatMap(this::incrementCount);
-    }
-
-    private ApprovedLoanRequestMetric createInitialMetric() {
-        return ApprovedLoanRequestMetric.builder()
-                .code(ApprovedLoanRequestMetrics.APPROVED_LOAN_COUNT.getCode())
-                .value("0")
-                .build();
     }
 
     private Mono<ApprovedLoanRequestMetric> incrementCount(ApprovedLoanRequestMetric metric) {

@@ -5,6 +5,7 @@ import co.com.crediya.api.contract.RouteHandler;
 import co.com.crediya.api.dto.approvedloanapplicationmetrics.ApprovedLoanApplicationReportDTO;
 import co.com.crediya.api.dto.common.ErrorResponseDTO;
 import co.com.crediya.model.role.enums.Roles;
+import co.com.crediya.usecase.getapprovedloanapplicationamount.GetApprovedLoanApplicationAmountUseCase;
 import co.com.crediya.usecase.getapprovedloanapplicationcount.GetApprovedLoanApplicationCountUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ApprovedLoanApplicationReportHandlerV1 implements RouteHandler {
     private final GetApprovedLoanApplicationCountUseCase getApprovedLoanApplicationCountUseCase;
+    private final GetApprovedLoanApplicationAmountUseCase getApprovedLoanApplicationAmountUseCase;
     private final RoleValidator roleValidator;
 
     @Override
@@ -45,10 +47,13 @@ public class ApprovedLoanApplicationReportHandlerV1 implements RouteHandler {
     }
 
     private Mono<ApprovedLoanApplicationReportDTO> generateReport() {
-        return getApprovedLoanApplicationCountUseCase.execute(null)
-                .map(count -> ApprovedLoanApplicationReportDTO.builder()
-                        .approvedLoanCount(count)
-                        .build()
-                );
+        return Mono.zip(
+                getApprovedLoanApplicationCountUseCase.execute(null),
+                getApprovedLoanApplicationAmountUseCase.execute(null)
+        ).map(tuple -> ApprovedLoanApplicationReportDTO.builder()
+                .approvedLoanCount(tuple.getT1())
+                .approvedLoanAmount(tuple.getT2())
+                .build()
+        );
     }
 }
