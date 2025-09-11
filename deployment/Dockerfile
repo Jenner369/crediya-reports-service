@@ -12,6 +12,8 @@ RUN ./gradlew clean build -x validateStructure -x test --no-daemon
 FROM eclipse-temurin:17-jdk-alpine AS runtime
 WORKDIR /app
 
+ENV SPRING_PROFILES_ACTIVE=dev
+
 # Creamos un usuario no root
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
