@@ -5,6 +5,9 @@ WORKDIR /app
 # Copiamos todo el proyecto (para compilar si se necesita)
 COPY . .
 
+# Asegurar permisos de gradlew
+RUN chmod +x gradlew
+
 # Compilamos con Gradle (se puede desactivar si ya tienes JAR)
 RUN ./gradlew clean build -x validateStructure -x test --no-daemon
 
@@ -12,7 +15,10 @@ RUN ./gradlew clean build -x validateStructure -x test --no-daemon
 FROM eclipse-temurin:17-jdk-alpine AS runtime
 WORKDIR /app
 
-ENV SPRING_PROFILES_ACTIVE=dev
+ENV SPRING_PROFILES_ACTIVE=pro
+
+# Instalar curl
+RUN apk add --no-cache curl
 
 # Creamos un usuario no root
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
