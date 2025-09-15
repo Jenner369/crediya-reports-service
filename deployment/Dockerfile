@@ -15,7 +15,7 @@ RUN ./gradlew clean build -x validateStructure -x test --no-daemon
 FROM eclipse-temurin:17-jdk-alpine AS runtime
 WORKDIR /app
 
-ENV SPRING_PROFILES_ACTIVE=pro
+ENV SPRING_PROFILES_ACTIVE=pdn
 
 # Instalar curl
 RUN apk add --no-cache curl
