@@ -14,6 +14,8 @@ management:
     health:
       probes:
         enabled: true
+app:
+  tz: "${APP_TZ:UTC}"
 cors:
   allowed-origins: "${CORS_ALLOWED_ORIGINS}"
 jwt:
@@ -23,8 +25,12 @@ aws:
 entrypoint:
   sqs:
     region: "${AWS_DEFAULT_REGION}"
-    queueUrl: "${AWS_SQS_LOAN_APPLICATIONS_APPROVED_QUEUE_URL}"
+    approvedQueueUrl: "${AWS_SQS_LOAN_APPLICATIONS_APPROVED_QUEUE_URL}"
     waitTimeSeconds: 20
     maxNumberOfMessages: 10
     visibilityTimeoutSeconds: 10
     numberOfThreads: 1
+adapter:
+  sqs:
+    region: "${AWS_DEFAULT_REGION}"
+    metricsNotificationQueueUrl: "${AWS_SQS_LOAN_APPLICATIONS_APPROVED_METRICS_QUEUE_URL}"
