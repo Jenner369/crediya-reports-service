@@ -1,7 +1,6 @@
 package co.com.crediya.sqs.listener.config;
 
 import co.com.crediya.sqs.listener.helper.SQSListener;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
@@ -21,7 +20,6 @@ import java.net.URI;
 import java.util.function.Function;
 
 @Configuration
-@ConditionalOnMissingBean(SqsAsyncClient.class)
 public class SQSConfig {
 
     @Bean
