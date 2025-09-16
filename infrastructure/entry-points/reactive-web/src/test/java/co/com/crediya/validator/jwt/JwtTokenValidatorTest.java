@@ -1,7 +1,7 @@
-package co.com.crediya.provider.jwt;
+package co.com.crediya.validator.jwt;
 
-import co.com.crediya.api.provider.jwt.JwtProperties;
-import co.com.crediya.api.provider.jwt.JwtTokenValidator;
+import co.com.crediya.api.validator.jwt.JwtProperties;
+import co.com.crediya.api.validator.jwt.JwtTokenValidator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
