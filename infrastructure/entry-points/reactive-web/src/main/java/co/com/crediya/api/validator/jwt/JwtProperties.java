@@ -1,4 +1,4 @@
-package co.com.crediya.api.provider.jwt;
+package co.com.crediya.api.validator.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

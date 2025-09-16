@@ -1,6 +1,7 @@
 package co.com.crediya.config;
 
 import co.com.crediya.model.approvedloanrequestmetric.gateways.ApprovedLoanRequestMetricRepository;
+import co.com.crediya.model.approvedloanrequestmetric.gateways.ApprovedLoanRequestMetricsEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +41,11 @@ public class UseCasesConfigTest {
         @Bean
         public ApprovedLoanRequestMetricRepository approvedLoanRequestMetricRepository() {
             return mock(ApprovedLoanRequestMetricRepository.class);
+        }
+
+        @Bean
+        public ApprovedLoanRequestMetricsEventPublisher approvedLoanRequestMetricsEventPublisher() {
+            return mock(ApprovedLoanRequestMetricsEventPublisher.class);
         }
     }
 
